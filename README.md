@@ -11,7 +11,7 @@ ipmo .\SlinkyCat.ps1
 Invoke-SlinkyCat
 ```
 
-## Notes
+## Notes & Known Errors
 Each function has the ability to be run individually and also has an added output option, therefore if you want to run without the menu system you can load slinkycat, select option 3 from the menu then run whatever function you want. For example:
 
 ```
@@ -19,6 +19,9 @@ FindAdminAccessComputers -OutputPath AdminAccess.txt
 ```
 
 This will find where the local user has admin access OR where the C$ is shared then echo the results back.
+
+### Known Errors
+If you select either option 1 or 2 then option A to run all functions, the script will run all functions and prompt you to hit return each time, at the end it will error but in the background it has run all the functions as required. We are working on a fix for this but the function works as intended, if anyone knows a fix ping @ZephrFish.
 
 ## Example Running
 ```
