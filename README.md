@@ -35,6 +35,7 @@ This will bring up the menu.
 === Menu ===
 1. ADSI Enumeration
 2. Dot NET System.DirectoryServices.AccountManagement Namespace Enumeration
+3. List Available Individual Functions
 Q. Quit
 Select an option:
 ```
