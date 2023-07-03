@@ -95,21 +95,9 @@ svc_admin
 ```
 
 
-Quitting from the main menu without saving
-```
-=== Menu ===
-1. ADSI Enumeration
-2. Dot NET System.DirectoryServices.AccountManagement Namespace Enumeration
-Q. Quit
-Select an option: q
-
-Goodbye!
-PS C:\Users\user1>
-```
-
 Reading the output after closing.
 ```
-PS C:\Users\user1> type happy1.txt
+PS C:\Users\user1> type output/UsersLastPasswordChange.txt
 
 Option: Password last set
 Username: krbtgt, Last Password Set: 05/04/2023 14:51:59
