@@ -1,30 +1,49 @@
 # SlinkyCat
 ## v1.0 Release
 Brought to you by [Neil Lines](https://twitter.com/myexploit2600) & [Andy Gill](https://twitter.com/ZephrFish) at [Lares Labs](https://labs.lares.com).
-Funny name, right? We thought so, too; Neil's cat is called slinky, and we love to have fun here!
+Funny name, right? We thought so, too; Neil's cat is called Slinky, and we love to have fun here!
 
 ## What It Is
 Slinky Cat has been developed to automate some of the methods introduced in living off the land and to supplement ScrapingKit. To help security and IT teams reduce their AD exposures and uncover quick wins and fixes designed for pen-testers and defenders alike.
 
-Slinky Cat attempts to give users an easy-to-navigate menu offering predefined Active Directory Service Interfaces (ADSI) and .NET System.DirectoryServices.AccountManagement namespace queries which can be used to enumerate a Windows domain.
+Slinky Cat attempts to give users an easy-to-navigate menu offering predefined Active Directory Service Interfaces (ADSI) and .NET System.DirectoryServices.AccountManagement namespace queries can be used to enumerate a Windows domain.
 ## How to Setup/Use
-Simply import the module then execute it:
+Simply import the module, then execute it:
 ```
 ipmo .\SlinkyCat.ps1
 Invoke-SlinkyCat
 ```
 
 ## Notes & Known Errors
-Each function has the ability to be run individually and also has an added output option, therefore if you want to run without the menu system you can load slinkycat, select option 3 from the menu then run whatever function you want. For example:
+Each function can be run individually and has an added output option; therefore, if you want to run without the menu system, you can load Slinkycat, select option 3 from the menu, and run whatever function you want. For example:
 
 ```
 FindAdminAccessComputers -OutputPath AdminAccess.txt
 ```
 
-This will find where the local user has admin access OR where the C$ is shared then echo the results back.
+This will find where the local user has admin access OR where the C$ is shared, then echo the results back:
+```
+*********************** WARNING ************************
+This operation will be noisy and could
+potentially compromise operational security (OPSEC).
+
+You are running as EA
+
+This will scan the whole network for where your current user has local admin access.
+
+Are you sure you want to continue? (Y/N): Y
+
+[*] User EA has local Admin access(OR C$ is shared to everyone) to: DC1
+[*] User EA has local Admin access(OR C$ is shared to everyone) to: WS1
+[*] User EA has local Admin access(OR C$ is shared to everyone) to: WS2
+[*] User EA has local Admin access(OR C$ is shared to everyone) to: DC2
+[*] User EA has local Admin access(OR C$ is shared to everyone) to: ADCS
+
+Press Enter to continue
+```
 
 ### Known Errors
-If you select either option 1 or 2 then option A to run all functions, the script will run all functions and prompt you to hit return each time, at the end it will error but in the background it has run all the functions as required. We are working on a fix for this but the function works as intended, if anyone knows a fix ping @ZephrFish.
+If you select either option 1 or 2, then option A to run all functions, the script will run all functions and prompt you to hit return each time; at the end, it will error, but in the background, it has run all the functions as required. We are working on a fix for this, but the function works as intended; if anyone knows a fix, ping @ZephrFish.
 
 ## Example Running
 ```
@@ -41,10 +60,10 @@ Select an option:
 ```
 
 
-Option 1 offers you pre-defined ADSI one liners to help enumerate the domain. The result will echo to console, for those that don’t want to save to disk, but you also get an option to save all the results you created to disk via option S on the initial menu, and are also asked again when you quit.
+Option 1 offers you pre-defined ADSI one-liners to help enumerate the domain. The result will echo to the console for those that don’t want to save to disk, but you also get an option to save all the results you created to disk via option S on the initial menu and are also asked again when you quit.
 
 
- Select option 1 redirects you to the ADSI Enumeration option menu. 
+Select option 1 redirects you to the ADSI Enumeration option menu. 
 ```
 === ADSI Enumeration ===
 ADSI Options Menu Please select an option:
@@ -82,7 +101,7 @@ Q. Quit
 ```
 Select option 5 List all accounts with an SPN see the result below
 
-Select an option: 5
+Select option: 5
 Option: List all accounts with an SPN
 ```
 krbtgt
