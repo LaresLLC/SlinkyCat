@@ -1,9 +1,8 @@
 # SlinkyCat
 ## v1.0 Release
 Brought to you by [Neil Lines](https://twitter.com/myexploit2600) & [Andy Gill](https://twitter.com/ZephrFish) at [Lares Labs](https://labs.lares.com).
+Funny name, right? We thought so, too; Neil's cat is called slinky, and we love to have fun here!
 
-## About
-Funny name, right? We thought so, too; Neil's cat is called slinky and we love to have fun here!
 ## What It Is
 Slinky Cat has been developed to automate some of the methods introduced in living off the land and to supplement ScrapingKit. To help security and IT teams reduce their AD exposures and uncover quick wins and fixes designed for pen-testers and defenders alike.
 
