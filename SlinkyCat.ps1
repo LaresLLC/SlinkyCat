@@ -222,6 +222,18 @@ function ListAccountsWithSPN {
         [Parameter(Mandatory=$false)]
         [String]$OutputPath
     )
+
+    $warningMessage = @"
+************************ WARNING ************************
+This *might* trigger alerts for Kerberoasting due to searching for wildcard SPN searching.
+
+Are you sure you want to continue? (Y/N)
+"@
+    $confirm = Read-Host -Prompt $warningMessage
+    if ($confirm -ne 'Y') {
+         Write-Output "[!] Operation Cancelled."
+        return
+    }
     $result = "Option: ADSI List all accounts with an SPN`n"
     $users = ([adsisearcher]'(&(objectCategory=user)(servicePrincipalName=*))').FindAll()
     foreach ($user in $users) {
@@ -1332,38 +1344,38 @@ Are you sure you want to continue? (Y/N)
 # ADSI Menu Options
 ################################################################################################
 function ADSIMenu {
-     Write-Output "ADSI Optinos Menu Please select an option:"
-     Write-Output "1. Enumerate all domain hosts"
-     Write-Output "2. Enumerate all domain controllers"
-     Write-Output "3. Enumerate all domain users"
-     Write-Output "4. List all users in the domain admins group"
-     Write-Output "5. List all accounts with an SPN"
-     Write-Output "6. List all domain groups"
-     Write-Output "7. List all password set to never expire"
-     Write-Output "8. List all users which do not require a password"
-     Write-Output "9. List all users with password must change at next logon"
-     Write-Output "10. List all computers that are not Domain Controllers and are Windows 7"
-     Write-Output "11. List all computers that are not Domain Controllers and are Windows 10"
-     Write-Output "12. List all computers that are not Domain Controllers and are Windows 11"
-     Write-Output "13. List all servers"
-     Write-Output "14. List all Server 2008"
-     Write-Output "15. List all Server 2012"
-     Write-Output "16. List all Server 2016"
-     Write-Output "17. List all Server 2019"
-     Write-Output "18. List all Server 2022"
-     Write-Output "19. List domain groups which are a member of the local admin group"
-     Write-Output "20. List all trusts established with a domain"
-     Write-Output "21. List all Exchange servers"
-     Write-Output "22. List all accounts that have never logged in"
-     Write-Output "23. List all domain user accounts which have a completed AD description field"
-     Write-Output "24. List all accounts that reference 'pass' in their AD description field"
-     Write-Output "25. List all users who have not changed their password in over 1 year"
-     Write-Output "26. List all users' last password change date and time"
-     Write-Output "27. List all systems with WinRM Open (Not OPSEC SAFE!)"
-     Write-Output "28. List all systems with RDP Open (Not OPSEC SAFE!)"
-     Write-Output "29. Find all machines where the current user has local admin acess (Not OPSEC Safe, will list all computers then attempt to mount C$)"
-     Write-Output "A. Run all functions and export to an output folder full of txt files"
-     Write-Output "Q. Quit"
+    Write-Output "ADSI Options Menu Please select an option:"
+    Write-Output "1. Enumerate All Domain Hosts"
+    Write-Output "2. Enumerate All Domain Controllers"
+    Write-Output "3. Enumerate All Domain Users"
+    Write-Output "4. List All Users in the Domain admins group"
+    Write-Output "5. List All accounts with an SPN"
+    Write-Output "6. List All Domain groups"
+    Write-Output "7. List All password set to never expire"
+    Write-Output "8. List All Users which do not require a password"
+    Write-Output "9. List All Users with password must change at next logon"
+    Write-Output "10. List All Computers that are not Domain Controllers and are Windows 7"
+    Write-Output "11. List All Computers that are not Domain Controllers and are Windows 10"
+    Write-Output "12. List All Computers that are not Domain Controllers and are Windows 11"
+    Write-Output "13. List All Servers"
+    Write-Output "14. List All Server 2008"
+    Write-Output "15. List All Server 2012"
+    Write-Output "16. List All Server 2016"
+    Write-Output "17. List All Server 2019"
+    Write-Output "18. List All Server 2022"
+    Write-Output "19. List Domain Groups which are a Member of the local admin group"
+    Write-Output "20. List All Trusts Established with a Domain"
+    Write-Output "21. List All Exchange Servers"
+    Write-Output "22. List All Accounts that have never logged in"
+    Write-Output "23. List All Domain User Accounts which have a completed AD description field"
+    Write-Output "24. List All accounts that reference 'pass' in their AD description field"
+    Write-Output "25. List All Users who have not changed their password in over 1 year"
+    Write-Output "26. List All Users' last password change date and time"
+    Write-Output "27. List All Systems with WinRM Open (Not OPSEC SAFE!)"
+    Write-Output "28. List All Systems with RDP Open (Not OPSEC SAFE!)"
+    Write-Output "29. Find All Machines where the current user has local admin access (Not OPSEC Safe, will list All Computers then attempt to mount C$)"
+    Write-Output "A. Run All Functions and Export to an Output Folder Full of txt Files"
+    Write-Output "Q. Quit"
 
     $option = Read-Host "Enter your choice"
 
@@ -1473,11 +1485,11 @@ function DotNetMenu {
     do {
         Clear-Host
          Write-Output "=== Dot Net Options Menu ==="
-         Write-Output "1. Enumerate all domain user accounts"
-         Write-Output "2. List domain user accounts with completed AD description"
-         Write-Output "3. List accounts by description"
-         Write-Output "4. List users in the domain admins group"
-         Write-Output "A. Run all functions and export to an output folder full of txt files"
+         Write-Output "1. Enumerate All Domain User Accounts"
+         Write-Output "2. List Domain user accounts with completed AD description"
+         Write-Output "3. List Accounts by Description"
+         Write-Output "4. List Users in the Domain Admins group"
+         Write-Output "A. Run All Functions and Export to an output folder full of txt files"
          Write-Output "Q. Quit"
         $choice = Read-Host "Enter your choice"
 
