@@ -2,7 +2,7 @@
 ## v1.0 Release
 Brought to you by [Neil Lines](https://twitter.com/myexploit2600) & [Andy Gill](https://twitter.com/ZephrFish) at [Lares Labs](https://labs.lares.com).
 
-![image](https://github.com/LaresLLC/SlinkyCat/assets/5783068/87e62aad-7652-40a4-8bfb-303bca0edc69)
+![image](https://github.com/LaresLLC/SlinkyCat/assets/5783068/6a9b3a1c-90d0-40c6-9b00-740b2bf54818)
 
 
 Funny name, right? We thought so, too; Neil's cat is called Slinky, and we love to have fun here!
