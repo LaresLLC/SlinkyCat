@@ -940,7 +940,7 @@ Are you sure you want to continue? (Y/N)
      "`n"
    }
 
-function FindAdminAccessComputers {
+   function FindAdminAccessComputers {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
@@ -1393,16 +1393,16 @@ function ADSIMenu {
             ListDomainAdmins
         }
         "5" {
-            ListAccountsSPN
+            ListAccountsWithSPN
         }
         "6" {
-            ListDomainGroups
+            ListAllDomainGroups
         }
         "7" {
             ListPasswordNeverExpire
         }
         "8" {
-            ListUsersNoPassword
+            ListUsersNoPasswordRequired
         }
         "9" {
             ListUsersPasswordMustChange
@@ -1435,7 +1435,7 @@ function ADSIMenu {
             ListServer2022
         }
         "19" {
-            ListDomainGroupsLocalAdmins
+            ListDomainGroupsLocalAdmin
         }
         "20" {
             ListAllTrusts
