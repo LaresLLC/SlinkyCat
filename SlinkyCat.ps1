@@ -186,23 +186,47 @@ function EnumerateAllDomainUsers {
 
 }
 
+
 function ListDomainAdmins {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
         [String]$OutputPath
     )
+
     $result = "Option: List all users in the domain admins group`n"
 
     $domain = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
     $domainDN = $domain.GetDirectoryEntry().distinguishedName
 
-    $users = ([adsisearcher]"(memberOf=cn=Domain Admins,CN=Users,$domainDN)").FindAll()
+    # LDAP query to get any user from the domain
+    # We use any user here because we're primarily interested in the domain SID part of the user SID, 
+    # not the user themselves. The SID of any user in a domain starts with the domain's SID.
+    $anyUser = ([adsisearcher]"(objectCategory=user)").FindOne().Properties["objectsid"][0]
+
+    # Create a SecurityIdentifier (SID) object for the domain
+    # We're going to use this to construct the SID of the "Domain Admins" group
+    $domainAdminsSID = New-Object System.Security.Principal.SecurityIdentifier($anyUser,0)
+    $domainAdminsSID = $domainAdminsSID.AccountDomainSid
+
+    # Create the SID for the "Domain Admins" group
+    # The last part of a group's SID, the Relative Identifier (RID), is a well-known value. For "Domain Admins", it's 512.
+    $newSid = New-Object System.Security.Principal.SecurityIdentifier($domainAdminsSID.Value + "-512")
+
+    # Translate the SID to the name of the group
+    # This gives us the name of the "Domain Admins" group in the language of the current domain
+    $groupNameWithDomain = $newSid.Translate([System.Security.Principal.NTAccount])
+    
+    # Separate the domain and the group name
+    # The name is given in the format "domain\group", but we only want the group name for the LDAP query
+    $groupName = $groupNameWithDomain.Value.Split('\')[1]
+
+    # Search for users who are members of the "Domain Admins" group.
+    $users = ([adsisearcher]"(memberOf=CN=$groupName,CN=Users,$domainDN)").FindAll()
     foreach ($user in $users) {
         $userName = $user.Properties['sAMAccountName']
         $result += "$userName`n"
     }
-
 
     if ($OutputPath) {
         Write-Output $result
@@ -212,7 +236,7 @@ function ListDomainAdmins {
     }
 
     Write-Host "Press Enter to Continue"
-         Read-Host 
+    Read-Host 
 }
 
 
