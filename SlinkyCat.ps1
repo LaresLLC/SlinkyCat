@@ -199,20 +199,26 @@ function ListDomainAdmins {
     $domain = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
     $domainDN = $domain.GetDirectoryEntry().distinguishedName
 
-    # Get any user from the domain
+    # LDAP query to get any user from the domain
+    # We use any user here because we're primarily interested in the domain SID part of the user SID, 
+    # not the user themselves. The SID of any user in a domain starts with the domain's SID.
     $anyUser = ([adsisearcher]"(objectCategory=user)").FindOne().Properties["objectsid"][0]
 
-    # Create a SID for the domain admins
+    # Create a SecurityIdentifier (SID) object for the domain
+    # We're going to use this to construct the SID of the "Domain Admins" group
     $domainAdminsSID = New-Object System.Security.Principal.SecurityIdentifier($anyUser,0)
     $domainAdminsSID = $domainAdminsSID.AccountDomainSid
 
-    # Replace the user RID with Domain Admins RID (512)
+    # Create the SID for the "Domain Admins" group
+    # The last part of a group's SID, the Relative Identifier (RID), is a well-known value. For "Domain Admins", it's 512.
     $newSid = New-Object System.Security.Principal.SecurityIdentifier($domainAdminsSID.Value + "-512")
 
-    # Translate the new SID to a group name
+    # Translate the SID to the name of the group
+    # This gives us the name of the "Domain Admins" group in the language of the current domain
     $groupNameWithDomain = $newSid.Translate([System.Security.Principal.NTAccount])
     
     # Separate the domain and the group name
+    # The name is given in the format "domain\group", but we only want the group name for the LDAP query
     $groupName = $groupNameWithDomain.Value.Split('\')[1]
 
     # Search for users who are members of the "Domain Admins" group.
