@@ -186,23 +186,41 @@ function EnumerateAllDomainUsers {
 
 }
 
+
 function ListDomainAdmins {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
         [String]$OutputPath
     )
+
     $result = "Option: List all users in the domain admins group`n"
 
     $domain = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
     $domainDN = $domain.GetDirectoryEntry().distinguishedName
 
-    $users = ([adsisearcher]"(memberOf=cn=Domain Admins,CN=Users,$domainDN)").FindAll()
+    # Get any user from the domain
+    $anyUser = ([adsisearcher]"(objectCategory=user)").FindOne().Properties["objectsid"][0]
+
+    # Create a SID for the domain admins
+    $domainAdminsSID = New-Object System.Security.Principal.SecurityIdentifier($anyUser,0)
+    $domainAdminsSID = $domainAdminsSID.AccountDomainSid
+
+    # Replace the user RID with Domain Admins RID (512)
+    $newSid = New-Object System.Security.Principal.SecurityIdentifier($domainAdminsSID.Value + "-512")
+
+    # Translate the new SID to a group name
+    $groupNameWithDomain = $newSid.Translate([System.Security.Principal.NTAccount])
+    
+    # Separate the domain and the group name
+    $groupName = $groupNameWithDomain.Value.Split('\')[1]
+
+    # Search for users who are members of the "Domain Admins" group.
+    $users = ([adsisearcher]"(memberOf=CN=$groupName,CN=Users,$domainDN)").FindAll()
     foreach ($user in $users) {
         $userName = $user.Properties['sAMAccountName']
         $result += "$userName`n"
     }
-
 
     if ($OutputPath) {
         Write-Output $result
@@ -212,7 +230,7 @@ function ListDomainAdmins {
     }
 
     Write-Host "Press Enter to Continue"
-         Read-Host 
+    Read-Host 
 }
 
 
